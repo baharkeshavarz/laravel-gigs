@@ -48,9 +48,37 @@ class ListingController extends Controller
         }
 
         $formFields["user_id"] = 1;
-
         Listing::create($formFields); // $request->all()
 
         return redirect("/")->with('message', 'Listing was added successfully.');
+    }
+
+    // Show edit form
+    public function edit(Listing $listing)
+    {
+        return view("listings.edit", ['listing' => $listing]);
+    }
+
+    // Update data
+    public function update(Request $request, Listing $listing)
+    {
+        $formFields = $request->validate([
+            'title' => 'required',
+            'company' => ['required'],
+            'location' => 'required',
+            'website' => 'required',
+            'email' => ['required', 'email'],
+            'tags' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        $formFields["user_id"] = 1;
+        $listing->update($formFields); // $request->all()
+
+        return back()->with('message', 'Listing was updated successfully.');
     }
 }

@@ -11,10 +11,9 @@
     @else
     <p>No listings found</p>
     @endunless
-
-    <div class="pt-6">
-       {{ $listings->links()}}
-    </div> 
-
   </div>
+
+  <div class="pt-6 flex justify-center space-x-10 max-w-7xl">
+       {{ $listings->links()}}
+  </div> 
 </x-layout>
